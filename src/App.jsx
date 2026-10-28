@@ -131,9 +131,10 @@ function Hero() {
   const ref = useRef(null)
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], [0, -120])
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94])
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  // Stay crisp for the first stretch of scrolling so the buttons remain usable; only fade on the way out.
+  const y = useTransform(scrollYProgress, [0.25, 1], [0, -120])
+  const scale = useTransform(scrollYProgress, [0.25, 1], [1, 0.94])
+  const opacity = useTransform(scrollYProgress, [0.45, 0.9], [1, 0])
 
   return (
     <section ref={ref} className="hero wrap">
