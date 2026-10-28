@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
-import { featured, others, principles, timeline, links } from './data.js'
+import { availability, featured, others, principles, timeline, links } from './data.js'
 import { ForensightArt, DevSphereArt } from './Art.jsx'
 import Reveal from './Reveal.jsx'
 import Sheet from './Sheet.jsx'
@@ -96,9 +96,26 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="footer">
+      <footer id="contact" className="footer">
         <div className="footer-glow" aria-hidden="true" />
         <div className="wrap footer-inner">
+          <Reveal className="avail">
+            <p className="eyebrow">Open to work</p>
+            <dl>
+              <div>
+                <dt>Roles</dt>
+                <dd>{availability.roles}</dd>
+              </div>
+              <div>
+                <dt>Where</dt>
+                <dd>{availability.where}</dd>
+              </div>
+              <div>
+                <dt>When</dt>
+                <dd>{availability.when} · Full-time or internship</dd>
+              </div>
+            </dl>
+          </Reveal>
           <Reveal>
             <p className="eyebrow">Contact</p>
           </Reveal>
@@ -144,9 +161,18 @@ function Hero() {
         <span />
       </div>
       <motion.div className="hero-inner" style={reduce ? undefined : { y, scale, opacity }}>
-        <motion.p className="eyebrow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
-          Full-stack engineer · SKCET ’27
-        </motion.p>
+        <motion.div
+          className="hero-top"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="eyebrow">Full-stack engineer · SKCET ’27</p>
+          <a className="status-pill" href="#contact">
+            <span className="live-dot" aria-hidden="true" />
+            {availability.short}
+          </a>
+        </motion.div>
         <h1 className="display" aria-label={headline}>
           {headline.split(' ').map((word, i) => (
             <Fragment key={i}>

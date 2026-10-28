@@ -5,6 +5,14 @@ export const links = {
   resume: 'https://drive.google.com/file/d/1SKroKlq3SfpxQAAKhkWV1uYkHkBYeVFV/view?usp=sharing',
 }
 
+// Mirrors the LinkedIn "Open to work" settings.
+export const availability = {
+  short: 'Open to full-time roles & internships',
+  roles: 'Software Engineer · Mobile Application Developer · Application Developer',
+  where: 'Chennai or Bengaluru · On-site or hybrid',
+  when: 'Available immediately',
+}
+
 export const featured = [
   {
     id: 'forensight',
