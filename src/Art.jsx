@@ -83,3 +83,61 @@ export function DevSphereArt() {
     </div>
   )
 }
+
+const stages = ['Material', 'Processing', 'Stitching', 'Dispatch']
+const current = 2 // stitching in progress
+
+const stock = [
+  ['Cotton twill', '420 m'],
+  ['Polyester thread', '96 cones'],
+  ['Shirts stitched (M/L/XL)', '312 / 500'],
+]
+
+export function GarmentArt() {
+  return (
+    <div className="art" aria-hidden="true">
+      <div className="art-bar">
+        <span>Order GM-118 · 500 shirts</span>
+        <span className="pill">On track</span>
+      </div>
+      <div className="flow">
+        <span className="flow-track">
+          <motion.span
+            className="flow-fill"
+            style={{ originX: 0, width: `${(current / (stages.length - 1)) * 100}%` }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={inView}
+            transition={{ type: 'spring', bounce: 0, duration: 1.1, delay: 0.2 }}
+          />
+        </span>
+        {stages.map((s, i) => (
+          <span key={s} className={`flow-step ${i < current ? 'done' : i === current ? 'now' : ''}`}>
+            <motion.span
+              className="flow-dot"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={inView}
+              transition={spring(i)}
+            />
+            <small>{s}</small>
+          </span>
+        ))}
+      </div>
+      <ul className="stock">
+        {stock.map(([name, qty], i) => (
+          <motion.li
+            key={name}
+            initial={{ opacity: 0, y: 6 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={inView}
+            transition={spring(i + 3)}
+          >
+            <span>{name}</span>
+            <span className="tl-time">{qty}</span>
+          </motion.li>
+        ))}
+      </ul>
+    </div>
+  )
+}

@@ -40,6 +40,27 @@ export const featured = [
     ],
     source: null,
   },
+  {
+    id: 'garment',
+    label: 'Internship · Nous Infosolutions',
+    status: 'Completed',
+    title: 'Garment Management System',
+    tagline: 'Production and inventory platform for garment manufacturing',
+    summary:
+      'One platform for a garment unit’s whole flow: materials, processing, stitching, tailors, dispatch and reports, replacing manual records and disconnected tools.',
+    problem:
+      'Garment production often runs on manual records and disconnected workflows, so stock is hard to track and production and dispatch are slow to monitor.',
+    stack: ['Angular', 'TypeScript', 'FastAPI', 'Python', 'MySQL', 'JWT'],
+    built: [
+      'Material master and inventory, with processing that deducts used quantities from stock.',
+      'Stitching records that calculate stitched quantities from garment sizes, plus tailor management.',
+      'Dispatch management for finished goods, with dashboards and reports on inventory and production.',
+      'JWT login protecting the API; Angular standalone components integrated with FastAPI and MySQL.',
+    ],
+    impact:
+      'Code splitting and fewer unnecessary re-renders cut dashboard re-renders by 30% and load time by about 1.5 seconds.',
+    source: 'https://github.com/Arshadsahabdeen/GarmentManagementSystem',
+  },
 ]
 
 export const others = [
@@ -54,12 +75,6 @@ export const others = [
     context: 'Smart India Hackathon 2024',
     text: 'ML-based adaptive CAPTCHA prototype for UIDAI, aimed at stronger security without hurting accessibility.',
     stack: 'Machine learning',
-  },
-  {
-    title: 'Garment Management System',
-    context: 'Internship · Nous Infosolutions',
-    text: 'Full-stack system for a garment manufacturing unit. Built the REST APIs and database layer, and made the dashboard 30% faster.',
-    stack: 'FastAPI / Angular / MySQL',
   },
   {
     title: 'SWS Document Dashboard',

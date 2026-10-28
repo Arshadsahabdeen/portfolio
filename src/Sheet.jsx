@@ -79,12 +79,26 @@ export default function Sheet({ project, onClose }) {
           <p className="lede">{project.tagline}</p>
           <p>{project.summary}</p>
 
+          {project.problem && (
+            <>
+              <h3>Problem</h3>
+              <p>{project.problem}</p>
+            </>
+          )}
+
           <h3>What I built</h3>
           <ul className="built">
             {project.built.map((b) => (
               <li key={b}>{b}</li>
             ))}
           </ul>
+
+          {project.impact && (
+            <>
+              <h3>Impact</h3>
+              <p>{project.impact}</p>
+            </>
+          )}
 
           <h3>Stack</h3>
           <p className="mono">{project.stack.join(' / ')}</p>

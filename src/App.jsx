@@ -1,12 +1,12 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { featured, others, principles, timeline, links } from './data.js'
-import { ForensightArt, DevSphereArt } from './Art.jsx'
+import { ForensightArt, DevSphereArt, GarmentArt } from './Art.jsx'
 import Reveal from './Reveal.jsx'
 import Sheet from './Sheet.jsx'
 import { useTilt } from './tilt.js'
 
-const art = { forensight: <ForensightArt />, devsphere: <DevSphereArt /> }
+const art = { forensight: <ForensightArt />, devsphere: <DevSphereArt />, garment: <GarmentArt /> }
 const settle = { type: 'spring', bounce: 0, duration: 0.8 }
 
 const headline = 'I build the whole thing, from the database to the dashboard.'
@@ -25,7 +25,7 @@ export default function App() {
         <section id="work" className="wrap section">
           <Reveal>
             <p className="eyebrow">Selected work</p>
-            <h2 className="h2">Two builds, end to end.</h2>
+            <h2 className="h2">Three builds, end to end.</h2>
           </Reveal>
           <FeaturedStack onOpen={setOpen} />
         </section>
@@ -33,7 +33,7 @@ export default function App() {
         <section className="wrap section">
           <Reveal>
             <p className="eyebrow">Other builds</p>
-            <h2 className="h2">Hackathons, an internship, and side projects.</h2>
+            <h2 className="h2">Hackathons and side projects.</h2>
           </Reveal>
           <ul className="others">
             {others.map((o, i) => (

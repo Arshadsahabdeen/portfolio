@@ -694,6 +694,85 @@ p {
   color: var(--text);
 }
 
+/* Garment: production flow + stock */
+.flow {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0.5rem 0 1rem;
+}
+
+.flow-track {
+  position: absolute;
+  left: 12.5%;
+  right: 12.5%;
+  top: 0.45rem;
+  height: 2px;
+  background: var(--line);
+}
+
+.flow-fill {
+  display: block;
+  height: 100%;
+  background: var(--text);
+}
+
+.flow-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--muted);
+}
+
+.flow-dot {
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: var(--inset);
+}
+
+.flow-step.done .flow-dot {
+  border-color: var(--text);
+  background: var(--text);
+}
+
+.flow-step.now {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.flow-step.now .flow-dot {
+  border-color: var(--text);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--text) 12%, transparent);
+}
+
+.card:hover .flow-step.now .flow-dot {
+  animation: beat 1.4s ease-in-out infinite;
+}
+
+@keyframes beat {
+  50% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--text) 6%, transparent);
+  }
+}
+
+.stock {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.stock li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.45rem;
+  border-top: 1px solid var(--line);
+}
+
 /* Other builds */
 .others {
   list-style: none;
@@ -1070,7 +1149,8 @@ p {
   .ambient span,
   .footer-glow,
   .card:hover .tl::before,
-  .card:hover .bar-fill::after {
+  .card:hover .bar-fill::after,
+  .card:hover .flow-step.now .flow-dot {
     animation: none;
   }
   .card,
