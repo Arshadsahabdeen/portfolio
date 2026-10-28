@@ -41,6 +41,25 @@ export const featured = [
     source: 'https://github.com/Arshadsahabdeen/DevSphereProject',
   },
   {
+    id: 'gridx7',
+    label: 'Smart India Hackathon 2025',
+    status: 'Completed',
+    title: 'GridX7',
+    tagline: 'AI-powered smart microgrid management',
+    summary:
+      'A Flutter app that watches a solar microgrid live: ESP32 sensors stream generation, battery and consumption data through Firebase, with dashboards, alerts and an AI assistant on top.',
+    problem:
+      'Without live visibility into solar generation, battery state and consumption, microgrid operators find faults late and can’t make informed energy decisions.',
+    stack: ['Flutter', 'Dart', 'ESP32', 'Firebase', 'FCM'],
+    built: [
+      'Real-time monitoring of solar generation, battery state of charge and energy consumption from ESP32 sensors.',
+      'Firebase Auth login with role-based admin and user dashboards.',
+      'Per-user alerts for important energy conditions, backed by Firebase and push notifications.',
+      'An AI chatbot that helps users interpret readings and troubleshoot the system.',
+    ],
+    source: 'https://github.com/Arshadsahabdeen/GridX7-SIH25',
+  },
+  {
     id: 'garment',
     label: 'Internship · Nous Infosolutions',
     status: 'Completed',
@@ -64,13 +83,6 @@ export const featured = [
 ]
 
 export const others = [
-  {
-    title: 'GridX7',
-    context: 'Smart India Hackathon 2025',
-    text: 'Flutter app for IoT solar grid monitoring: live ESP32 sensor data through Firebase, maintenance alerts and an AI troubleshooting chatbot.',
-    stack: 'Flutter / ESP32 / Firebase',
-    href: 'https://github.com/Arshadsahabdeen/GridX7-SIH25',
-  },
   {
     title: 'Adaptive CAPTCHA',
     context: 'Smart India Hackathon 2024',

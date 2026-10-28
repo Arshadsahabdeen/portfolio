@@ -773,6 +773,67 @@ p {
   border-top: 1px solid var(--line);
 }
 
+/* GridX7: energy flow + solar curve */
+.grid-flow {
+  display: flex;
+  align-items: center;
+  margin: 0.25rem 0 0.75rem;
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  min-width: 4.5rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.node small {
+  color: var(--muted);
+}
+
+.node b {
+  font-size: 0.95rem;
+}
+
+/* Dashed wire; the dashes flow toward the load while the card is hovered */
+.wire {
+  flex: 1;
+  height: 2px;
+  margin-inline: 0.4rem;
+  background: repeating-linear-gradient(90deg, var(--text) 0 6px, transparent 6px 12px);
+  background-size: 12px 2px;
+  opacity: 0.45;
+}
+
+.card:hover .wire {
+  animation: flow 0.8s linear infinite;
+}
+
+@keyframes flow {
+  to {
+    background-position: 12px 0;
+  }
+}
+
+.spark {
+  display: block;
+  width: 100%;
+  height: 3rem;
+  color: var(--text);
+}
+
+.spark-legend {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+  color: var(--muted);
+}
+
 /* Other builds */
 .others {
   list-style: none;
@@ -1150,7 +1211,8 @@ p {
   .footer-glow,
   .card:hover .tl::before,
   .card:hover .bar-fill::after,
-  .card:hover .flow-step.now .flow-dot {
+  .card:hover .flow-step.now .flow-dot,
+  .card:hover .wire {
     animation: none;
   }
   .card,

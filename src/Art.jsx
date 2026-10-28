@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { motion } from 'motion/react'
 
 // Small UI illustrations drawn in code, so the cards need no screenshots and follow the theme.
@@ -138,6 +139,58 @@ export function GarmentArt() {
           </motion.li>
         ))}
       </ul>
+    </div>
+  )
+}
+
+const nodes = [
+  ['Solar', '3.2 kW'],
+  ['Battery', '78%'],
+  ['Load', '2.4 kW'],
+]
+const solarCurve = 'M0 32 C 18 30, 28 14, 44 15 S 70 4, 86 6 S 112 20, 128 16 S 150 8, 160 10'
+
+export function GridArt() {
+  return (
+    <div className="art" aria-hidden="true">
+      <div className="art-bar">
+        <span>Microgrid · live</span>
+        <span className="pill">ESP32 online</span>
+      </div>
+      <div className="grid-flow">
+        {nodes.map(([name, value], i) => (
+          <Fragment key={name}>
+            {i > 0 && <span className="wire" />}
+            <motion.div
+              className="node"
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={inView}
+              transition={spring(i)}
+            >
+              <small>{name}</small>
+              <b>{value}</b>
+            </motion.div>
+          </Fragment>
+        ))}
+      </div>
+      <svg className="spark" viewBox="0 0 160 36" preserveAspectRatio="none">
+        <motion.path
+          d={solarCurve}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          vectorEffect="non-scaling-stroke"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={inView}
+          transition={{ duration: 1.4, ease: 'easeOut', delay: 0.35 }}
+        />
+      </svg>
+      <div className="spark-legend">
+        <span>Solar output · today</span>
+        <span className="tl-time">peak 3.6 kW</span>
+      </div>
     </div>
   )
 }
