@@ -9,7 +9,7 @@ const art = { forensight: <ForensightArt />, devsphere: <DevSphereArt /> }
 const settle = { type: 'spring', bounce: 0, duration: 0.8 }
 
 const headline = 'I build the whole thing, from the database to the dashboard.'
-const accentFrom = 5 // words from "from" onwards are teal
+const accentFrom = 5 // words from "from" onwards are full-strength; the rest stays grey
 
 export default function App() {
   const [open, setOpen] = useState(null)
@@ -19,58 +19,7 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <Nav />
       <main>
-        <section className="hero wrap">
-          <div className="ambient" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </div>
-          <motion.p
-            className="eyebrow"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            Full-stack engineer · SKCET ’27
-          </motion.p>
-          <h1 className="display" aria-label={headline}>
-            {headline.split(' ').map((word, i) => (
-              <Fragment key={i}>
-                <motion.span
-                  aria-hidden="true"
-                  className={`word ${i >= accentFrom ? 'accent' : ''}`}
-                  initial={{ opacity: 0, y: '0.4em' }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ ...settle, delay: 0.1 + i * 0.045 }}
-                >
-                  {word}
-                </motion.span>{' '}
-              </Fragment>
-            ))}
-          </h1>
-          <motion.p
-            className="hero-sub"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...settle, delay: 0.65 }}
-          >
-            Full-stack engineer working across React, Spring Boot and FastAPI. Final-year CS &amp; Design student at
-            SKCET.
-          </motion.p>
-          <motion.div
-            className="hero-ctas"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...settle, delay: 0.75 }}
-          >
-            <a className="btn btn-solid" href="#work">
-              View work
-            </a>
-            <a className="btn" href={links.github} target="_blank" rel="noreferrer">
-              GitHub ↗
-            </a>
-          </motion.div>
-        </section>
+        <Hero />
 
         <section id="work" className="wrap section">
           <Reveal>
@@ -113,7 +62,7 @@ export default function App() {
           </Reveal>
           <ol className="principles">
             {principles.map(([title, text], i) => (
-              <Reveal as="li" key={title} delay={i * 0.06}>
+              <Reveal as="li" key={title} delay={i * 0.06} tilt={i % 2 ? -3 : 3}>
                 <span className="mono">0{i + 1}</span>
                 <h3>{title}</h3>
                 <p>{text}</p>
@@ -178,6 +127,67 @@ export default function App() {
   )
 }
 
+// Loads word by word; as you scroll past, it drifts up, shrinks a touch and fades behind the work.
+function Hero() {
+  const ref = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 1], [0, -120])
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94])
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+
+  return (
+    <section ref={ref} className="hero wrap">
+      <div className="ambient" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
+      <motion.div className="hero-inner" style={reduce ? undefined : { y, scale, opacity }}>
+        <motion.p className="eyebrow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+          Full-stack engineer · SKCET ’27
+        </motion.p>
+        <h1 className="display" aria-label={headline}>
+          {headline.split(' ').map((word, i) => (
+            <Fragment key={i}>
+              <motion.span
+                aria-hidden="true"
+                className={`word ${i >= accentFrom ? 'accent' : ''}`}
+                initial={{ opacity: 0, y: '0.4em' }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...settle, delay: 0.1 + i * 0.045 }}
+              >
+                {word}
+              </motion.span>{' '}
+            </Fragment>
+          ))}
+        </h1>
+        <motion.p
+          className="hero-sub"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...settle, delay: 0.65 }}
+        >
+          Full-stack engineer working across React, Spring Boot and FastAPI. Final-year CS &amp; Design student at SKCET.
+        </motion.p>
+        <motion.div
+          className="hero-ctas"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...settle, delay: 0.75 }}
+        >
+          <a className="btn btn-solid" href="#work">
+            View work
+          </a>
+          <a className="btn" href={links.github} target="_blank" rel="noreferrer">
+            GitHub ↗
+          </a>
+        </motion.div>
+      </motion.div>
+    </section>
+  )
+}
+
 // Cards pin one below the other; as the next slides over, the one underneath sinks back.
 function FeaturedStack({ onOpen }) {
   const refs = useRef(featured.map(() => ({ current: null }))).current
@@ -199,7 +209,7 @@ function StackCard({ project: p, index: i, selfRef, nextRef, onOpen }) {
 
   return (
     <div ref={selfRef} className="stack-item" style={{ '--i': i }}>
-      <Reveal>
+      <Reveal tilt={3} lift={100}>
         <motion.div className="stack-scale" style={reduce ? undefined : { scale }}>
           <button className={`card ${i % 2 ? 'flip' : ''}`} onClick={() => onOpen(p)} onPointerMove={spotlight}>
             <div className="card-text">
