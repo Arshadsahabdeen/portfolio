@@ -38,7 +38,7 @@ export const featured = [
       'Predictive dashboards that surface at-risk projects as data changes.',
       'REST APIs connecting the MERN app to the ML service.',
     ],
-    source: null,
+    source: 'https://github.com/Arshadsahabdeen/DevSphereProject',
   },
   {
     id: 'garment',
