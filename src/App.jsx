@@ -9,8 +9,8 @@ import { useTilt } from './tilt.js'
 const art = { forensight: <ForensightArt />, devsphere: <DevSphereArt />, garment: <GarmentArt />, gridx7: <GridArt /> }
 const settle = { type: 'spring', bounce: 0, duration: 0.8 }
 
-const headline = 'I build the whole thing, from the database to the dashboard.'
-const accentFrom = 5 // words from "from" onwards are full-strength; the rest stays grey
+const headline = 'I build software end to end, from data to deployment.'
+const accentFrom = 6 // words from "from" onwards are full-strength; the rest stays grey
 
 export default function App() {
   const [open, setOpen] = useState(null)

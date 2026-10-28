@@ -99,9 +99,9 @@ export const others = [
 ]
 
 export const principles = [
-  ['Build the whole path.', "I'd rather ship one flow that works end to end than five half-finished features."],
-  ['Start from the data.', 'Schemas and APIs first; the interface is easier to get right once the data is.'],
-  ['Make it hold up.', 'Dashboards that load fast, evidence that stays traceable, alerts that fire when they should.'],
+  ['Own the whole path.', "Data model, API, interface, deployment: I'd rather understand every layer than hand off at the boundaries."],
+  ['Start with the data.', 'Good schemas and clean contracts make everything above them simpler, including the AI.'],
+  ['Ship, then sharpen.', 'Get something real working early, then measure and improve what actually matters.'],
 ]
 
 export const timeline = [
