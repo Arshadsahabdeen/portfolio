@@ -69,6 +69,7 @@ export const others = [
     context: 'Smart India Hackathon 2025',
     text: 'Flutter app for IoT solar grid monitoring: live ESP32 sensor data through Firebase, maintenance alerts and an AI troubleshooting chatbot.',
     stack: 'Flutter / ESP32 / Firebase',
+    href: 'https://github.com/Arshadsahabdeen/GridX7-SIH25',
   },
   {
     title: 'Adaptive CAPTCHA',
