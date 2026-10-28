@@ -2,7 +2,7 @@ export const links = {
   email: 'arshadsahabdeen05@gmail.com',
   linkedin: 'https://www.linkedin.com/in/arshad-sahabdeen-61454a299/',
   github: 'https://github.com/Arshadsahabdeen',
-  resume: '/Arshad-S-Resume.pdf',
+  resume: 'https://drive.google.com/file/d/1SKroKlq3SfpxQAAKhkWV1uYkHkBYeVFV/view?usp=sharing',
 }
 
 export const featured = [

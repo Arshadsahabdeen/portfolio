@@ -165,7 +165,7 @@ export default function App() {
             <a href={links.github} target="_blank" rel="noreferrer">
               GitHub
             </a>
-            <a href={links.resume} download>
+            <a href={links.resume} target="_blank" rel="noreferrer">
               Resume
             </a>
             <span className="muted">© 2026 Arshad S</span>
@@ -288,7 +288,7 @@ function Nav() {
               <span>{id === 'work' ? 'Work' : 'About'}</span>
             </a>
           ))}
-          <a href={links.resume} download>
+          <a href={links.resume} target="_blank" rel="noreferrer">
             <span>Resume</span>
           </a>
           <button className="icon-btn" onClick={toggle} aria-label="Toggle light or dark theme">
