@@ -1,9 +1,10 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
-import { availability, featured, others, principles, timeline, links } from './data.js'
+import { featured, others, principles, timeline, links } from './data.js'
 import { ForensightArt, DevSphereArt } from './Art.jsx'
 import Reveal from './Reveal.jsx'
 import Sheet from './Sheet.jsx'
+import { useTilt } from './tilt.js'
 
 const art = { forensight: <ForensightArt />, devsphere: <DevSphereArt /> }
 const settle = { type: 'spring', bounce: 0, duration: 0.8 }
@@ -63,9 +64,7 @@ export default function App() {
           <ol className="principles">
             {principles.map(([title, text], i) => (
               <Reveal as="li" key={title} delay={i * 0.06} tilt={i % 2 ? -3 : 3}>
-                <span className="mono">0{i + 1}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
+                <Principle index={i} title={title} text={text} />
               </Reveal>
             ))}
           </ol>
@@ -96,26 +95,9 @@ export default function App() {
         </section>
       </main>
 
-      <footer id="contact" className="footer">
+      <footer className="footer">
         <div className="footer-glow" aria-hidden="true" />
         <div className="wrap footer-inner">
-          <Reveal className="avail">
-            <p className="eyebrow">Open to work</p>
-            <dl>
-              <div>
-                <dt>Roles</dt>
-                <dd>{availability.roles}</dd>
-              </div>
-              <div>
-                <dt>Where</dt>
-                <dd>{availability.where}</dd>
-              </div>
-              <div>
-                <dt>When</dt>
-                <dd>{availability.when} · Full-time or internship</dd>
-              </div>
-            </dl>
-          </Reveal>
           <Reveal>
             <p className="eyebrow">Contact</p>
           </Reveal>
@@ -161,18 +143,9 @@ function Hero() {
         <span />
       </div>
       <motion.div className="hero-inner" style={reduce ? undefined : { y, scale, opacity }}>
-        <motion.div
-          className="hero-top"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="eyebrow">Full-stack engineer · SKCET ’27</p>
-          <a className="status-pill" href="#contact">
-            <span className="live-dot" aria-hidden="true" />
-            {availability.short}
-          </a>
-        </motion.div>
+        <motion.p className="eyebrow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+          Full-stack engineer · SKCET ’27
+        </motion.p>
         <h1 className="display" aria-label={headline}>
           {headline.split(' ').map((word, i) => (
             <Fragment key={i}>
@@ -232,12 +205,28 @@ function StackCard({ project: p, index: i, selfRef, nextRef, onOpen }) {
   const { scrollYProgress } = useScroll({ target: nextRef ?? selfRef, offset: ['start end', 'start start'] })
   const scale = useTransform(scrollYProgress, [0, 1], [1, nextRef ? 0.94 : 1])
   const dim = useTransform(scrollYProgress, [0, 1], [0, nextRef ? 0.6 : 0])
+  const tilt = useTilt(5)
+  // The illustration drifts against the tilt, so it reads as a layer floating above the card.
+  const artX = useTransform(tilt.px, (v) => v * -10)
+  const artY = useTransform(tilt.py, (v) => v * -8)
 
   return (
     <div ref={selfRef} className="stack-item" style={{ '--i': i }}>
       <Reveal tilt={3} lift={100}>
         <motion.div className="stack-scale" style={reduce ? undefined : { scale }}>
-          <button className={`card ${i % 2 ? 'flip' : ''}`} onClick={() => onOpen(p)} onPointerMove={spotlight}>
+          <motion.button
+            className={`card ${i % 2 ? 'flip' : ''}`}
+            onClick={() => onOpen(p)}
+            onPointerMove={(e) => {
+              spotlight(e)
+              tilt.move(e)
+            }}
+            onPointerLeave={tilt.reset}
+            style={tilt.style}
+            whileHover={{ y: -4 }}
+            whileTap={{ scale: 0.985 }}
+            transition={{ type: 'spring', bounce: 0, duration: 0.35 }}
+          >
             <div className="card-text">
               <p className="card-meta">
                 <span>
@@ -255,12 +244,35 @@ function StackCard({ project: p, index: i, selfRef, nextRef, onOpen }) {
                 Open details <span className="arrow">→</span>
               </span>
             </div>
-            {art[p.id]}
-          </button>
+            <motion.div className="art-wrap" style={reduce ? undefined : { x: artX, y: artY }}>
+              {art[p.id]}
+            </motion.div>
+          </motion.button>
           {!reduce && <motion.span className="stack-dim" style={{ opacity: dim }} aria-hidden="true" />}
         </motion.div>
       </Reveal>
     </div>
+  )
+}
+
+function Principle({ index, title, text }) {
+  const tilt = useTilt(8)
+  return (
+    <motion.div
+      className="principle"
+      onPointerMove={(e) => {
+        spotlight(e)
+        tilt.move(e)
+      }}
+      onPointerLeave={tilt.reset}
+      style={tilt.style}
+      whileHover={{ y: -6 }}
+      transition={{ type: 'spring', bounce: 0, duration: 0.35 }}
+    >
+      <span className="mono principle-num">0{index + 1}</span>
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </motion.div>
   )
 }
 
@@ -309,7 +321,8 @@ function Nav() {
     <header className="nav">
       <div className="wrap nav-inner">
         <a href="#" className="brand">
-          Arshad S
+          <span className="brand-name">Arshad S</span>
+          <span className="brand-role">Full-stack developer</span>
         </a>
         <nav>
           {sections.map((id) => (

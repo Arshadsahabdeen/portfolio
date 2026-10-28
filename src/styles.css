@@ -60,7 +60,7 @@
 html {
   font: 100%/1.55 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 7rem;
   -webkit-text-size-adjust: 100%;
   overflow-x: clip; /* mobile widens the layout viewport unless the root clips too */
 }
@@ -132,20 +132,36 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 3.75rem;
+  height: 5.5rem;
 }
 
 .brand {
-  font-weight: 650;
-  letter-spacing: -0.01em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
   text-decoration: none;
+}
+
+.brand-name {
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.brand-role {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--muted);
 }
 
 .nav nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  font-size: 0.9rem;
+  gap: 2rem;
+  font-size: 1.05rem;
+  font-weight: 500;
 }
 
 .nav nav a {
@@ -177,8 +193,8 @@ p {
 .icon-btn {
   display: grid;
   place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: transparent;
@@ -245,7 +261,7 @@ p {
   justify-content: center;
   gap: 1.5rem;
   min-height: min(88vh, 860px);
-  padding-block: 8rem 4rem;
+  padding-block: 10rem 4rem;
 }
 
 /* Ambient field: three soft grey currents drifting slowly behind the headline */
@@ -305,81 +321,6 @@ p {
   to {
     transform: translate(10vw, -4vh) scale(1.2);
   }
-}
-
-.hero-top {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem 1.25rem;
-}
-
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.3rem 0.8rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 550;
-  text-decoration: none;
-  background: var(--surface);
-  transition: border-color 150ms ease;
-}
-
-.status-pill:hover {
-  border-color: var(--muted);
-}
-
-/* A slow breathing dot: "currently available" */
-.live-dot {
-  position: relative;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--text);
-}
-
-.live-dot::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--text);
-  animation: ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-@keyframes ping {
-  75%,
-  100% {
-    transform: scale(2.6);
-    opacity: 0;
-  }
-}
-
-/* Availability in the footer */
-.avail dl {
-  display: grid;
-  margin: 1rem 0 2.5rem;
-  border-top: 1px solid var(--line);
-}
-
-.avail dl > div {
-  display: grid;
-  grid-template-columns: 6rem 1fr;
-  gap: 1rem;
-  padding-block: 0.8rem;
-  border-bottom: 1px solid var(--line);
-}
-
-.avail dt {
-  color: var(--muted);
-  font-size: 0.875rem;
-}
-
-.avail dd {
-  margin: 0;
 }
 
 .hero-inner {
@@ -444,7 +385,7 @@ p {
 /* Sticky stack: each card pins a little lower than the last */
 .stack-item {
   position: sticky;
-  top: calc(5.5rem + var(--i) * 1.5rem);
+  top: calc(7rem + var(--i) * 1.5rem);
 }
 
 .stack-scale {
@@ -477,19 +418,17 @@ p {
   text-align: left;
   cursor: pointer;
   box-shadow: var(--shadow);
-  transition: transform 160ms ease-out, border-color 200ms ease;
+  transition: border-color 200ms ease, box-shadow 300ms ease;
 }
 
 .card:hover {
   border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
-}
-
-.card:active {
-  transform: scale(0.99);
+  box-shadow: var(--shadow), 0 30px 60px -20px rgba(0, 0, 0, 0.25);
 }
 
 /* Pointer spotlight */
-.card::before {
+.card::before,
+.principle::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -503,12 +442,18 @@ p {
   pointer-events: none;
 }
 
-.card:hover::before {
+.card:hover::before,
+.principle:hover::before {
   opacity: 1;
 }
 
-.card > * {
+.card > *,
+.principle > * {
   position: relative;
+}
+
+.art-wrap {
+  will-change: transform;
 }
 
 .arrow {
@@ -524,7 +469,7 @@ p {
   transform: translate(6px, -6px);
 }
 
-.card.flip .art {
+.card.flip .art-wrap {
   order: -1;
 }
 
@@ -600,9 +545,36 @@ p {
 }
 
 .tl {
+  position: relative;
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.tl::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2.2rem;
+  background: linear-gradient(transparent, color-mix(in srgb, var(--text) 8%, transparent), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card:hover .tl::before {
+  opacity: 1;
+  animation: scan 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes scan {
+  from {
+    transform: translateY(-2.2rem);
+  }
+  to {
+    transform: translateY(10rem);
+  }
 }
 
 .tl li {
@@ -670,9 +642,29 @@ p {
 }
 
 .bar-fill {
+  position: relative;
   display: block;
   height: 100%;
   border-radius: inherit;
+  overflow: hidden;
+}
+
+.bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: translateX(-100%);
+}
+
+.card:hover .bar-fill::after {
+  animation: sheen 1.6s ease-in-out infinite;
+}
+
+@keyframes sheen {
+  to {
+    transform: translateX(100%);
+  }
 }
 
 .bar-fill.risk-low {
@@ -710,11 +702,38 @@ p {
 }
 
 .others li {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   gap: 2rem;
-  padding-block: 1.5rem;
+  padding: 1.5rem 1rem;
+  margin-inline: -1rem;
   border-top: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.others li::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--inset);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.others li:hover::before {
+  transform: scaleX(1);
+}
+
+.others li > * {
+  position: relative;
+  transition: transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.others li:hover > * {
+  transform: translateX(8px);
 }
 
 .others h3 {
@@ -745,13 +764,32 @@ p {
   gap: 1.5rem;
 }
 
-.principles li {
+.principle {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
   padding: 1.75rem;
   border: 1px solid var(--line);
   border-radius: 22px;
+  background: var(--surface);
+  transition: border-color 200ms ease;
+}
+
+.principle:hover {
+  border-color: var(--muted);
+}
+
+/* The number slides and darkens on hover */
+.principle-num {
+  transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1), color 200ms ease;
+}
+
+.principle:hover .principle-num {
+  transform: translateX(6px);
+  color: var(--text);
 }
 
 .principles h3 {
@@ -964,18 +1002,32 @@ p {
 
 /* Small screens */
 @media (max-width: 760px) {
+  .nav-inner {
+    height: 4.5rem;
+  }
+  .brand-name {
+    font-size: 1.3rem;
+  }
+  .brand-role {
+    font-size: 0.7rem;
+  }
   .nav nav {
     gap: 1rem;
+    font-size: 0.9rem;
+  }
+  .nav nav .icon-btn {
+    width: 2.4rem;
+    height: 2.4rem;
   }
   .hero {
     min-height: auto;
-    padding-block: 7.5rem 3rem;
+    padding-block: 8.5rem 3rem;
   }
   .card {
     grid-template-columns: 1fr;
     gap: 1.75rem;
   }
-  .card.flip .art {
+  .card.flip .art-wrap {
     order: 0;
   }
   .others li,
@@ -1017,12 +1069,16 @@ p {
   }
   .ambient span,
   .footer-glow,
-  .live-dot::after {
+  .card:hover .tl::before,
+  .card:hover .bar-fill::after {
     animation: none;
   }
   .card,
   .btn,
-  .icon-btn {
+  .icon-btn,
+  .others li::before,
+  .others li > *,
+  .principle-num {
     transition: none;
   }
 }
