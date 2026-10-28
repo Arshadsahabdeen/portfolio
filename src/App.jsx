@@ -116,7 +116,6 @@ export default function App() {
             <a href={links.resume} target="_blank" rel="noreferrer">
               Resume
             </a>
-            <span className="muted">© 2026 Arshad S</span>
           </div>
         </div>
       </footer>
