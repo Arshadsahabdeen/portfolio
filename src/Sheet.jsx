@@ -33,7 +33,7 @@ export default function Sheet({ project, onClose }) {
     : {
         initial: { y: '100%' },
         animate: { y: 0 },
-        exit: { y: '100%' },
+        exit: { y: '100%', transition: { ...spring, duration: 0.28 } }, // exits faster than it enters
         transition: spring,
         drag: 'y',
         dragListener: false,

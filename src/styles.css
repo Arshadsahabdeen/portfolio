@@ -148,13 +148,29 @@ p {
 }
 
 .nav nav a {
+  position: relative;
+  padding: 0.35rem 0.7rem;
+  margin: 0 -0.7rem;
   text-decoration: none;
   color: var(--muted);
   transition: color 150ms ease;
 }
 
-.nav nav a:hover {
+.nav nav a span {
+  position: relative;
+}
+
+.nav nav a:hover,
+.nav nav a.active {
   color: var(--text);
+}
+
+/* Slides between sections as you scroll */
+.nav-pill {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
 }
 
 .icon-btn {
@@ -231,15 +247,63 @@ p {
   padding-block: 8rem 4rem;
 }
 
-.hero::before {
-  content: '';
+/* Ambient field: three soft teal currents drifting slowly behind the headline */
+.ambient {
   position: absolute;
-  inset: 0 -20vw auto auto;
-  width: 60vw;
-  height: 70%;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 16%, transparent), transparent);
+  inset: 0 -10vw 0 30%;
   z-index: -1;
   pointer-events: none;
+  filter: blur(60px);
+  opacity: 0.9;
+}
+
+.ambient span {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.ambient span:nth-child(1) {
+  top: 8%;
+  left: 20%;
+  width: 34vw;
+  height: 34vw;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  animation: drift-a 19s ease-in-out infinite alternate;
+}
+
+.ambient span:nth-child(2) {
+  top: 35%;
+  left: 45%;
+  width: 26vw;
+  height: 26vw;
+  background: color-mix(in srgb, #38bdf8 14%, transparent);
+  animation: drift-b 24s ease-in-out infinite alternate;
+}
+
+.ambient span:nth-child(3) {
+  top: 50%;
+  left: 10%;
+  width: 22vw;
+  height: 22vw;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  animation: drift-c 28s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  to {
+    transform: translate(-8vw, 6vh) scale(1.15);
+  }
+}
+@keyframes drift-b {
+  to {
+    transform: translate(6vw, -8vh) scale(0.9);
+  }
+}
+@keyframes drift-c {
+  to {
+    transform: translate(10vw, -4vh) scale(1.2);
+  }
 }
 
 .display {
@@ -248,11 +312,13 @@ p {
   font-weight: 650;
   line-height: 1.02;
   letter-spacing: -0.04em;
-  animation: rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-.display em {
-  font-style: normal;
+.word {
+  display: inline-block;
+}
+
+.word.accent {
   color: var(--accent-ink);
 }
 
@@ -260,21 +326,12 @@ p {
   max-width: 34rem;
   font-size: clamp(1.05rem, 1.6vw, 1.2rem);
   color: var(--muted);
-  animation: rise 700ms 80ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .hero-ctas {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
-  animation: rise 700ms 160ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
 }
 
 /* Sections */
@@ -297,7 +354,28 @@ p {
   margin-top: 2.5rem;
 }
 
+/* Sticky stack: each card pins a little lower than the last */
+.stack-item {
+  position: sticky;
+  top: calc(5.5rem + var(--i) * 1.5rem);
+}
+
+.stack-scale {
+  position: relative;
+  transform-origin: 50% 0;
+}
+
+.stack-dim {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: var(--bg);
+  pointer-events: none;
+}
+
 .card {
+  position: relative;
+  overflow: hidden;
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 2.5rem;
@@ -321,6 +399,42 @@ p {
 
 .card:active {
   transform: scale(0.99);
+}
+
+/* Pointer spotlight */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--accent) 10%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 250ms ease;
+  pointer-events: none;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card > * {
+  position: relative;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.card:hover .card-cta .arrow {
+  transform: translateX(4px);
+}
+
+.say-hello:hover .arrow {
+  transform: translate(6px, -6px);
 }
 
 .card.flip .art {
@@ -609,10 +723,34 @@ p {
 
 /* Footer */
 .footer {
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-inner {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  padding-block: 5rem 3rem;
+  padding-block: 6rem 3rem;
+}
+
+/* A slow teal glow rising from the bottom edge */
+.footer-glow {
+  position: absolute;
+  inset: auto -10% -60% -10%;
+  height: 120%;
+  background: radial-gradient(50% 50% at 50% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent);
+  animation: glow 12s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes glow {
+  from {
+    transform: translateX(-8%) scale(1);
+  }
+  to {
+    transform: translateX(8%) scale(1.1);
+  }
 }
 
 .say-hello {
@@ -764,8 +902,24 @@ p {
   .principles {
     grid-template-columns: 1fr;
   }
+  .ambient {
+    inset: 0 -30vw 30% 10%;
+  }
   .section {
     padding-block: 3.5rem;
+  }
+}
+
+/* Tall cards (phones, short windows) would pin with their bottom off-screen, so stack normally */
+@media (max-width: 760px), (max-height: 720px) {
+  .stack-item {
+    position: static;
+  }
+  .stack-scale {
+    transform: none !important; /* shortcut: overrides Motion's inline scale; move to a JS media check if this grows */
+  }
+  .stack-dim {
+    display: none;
   }
 }
 
@@ -774,9 +928,8 @@ p {
   html {
     scroll-behavior: auto;
   }
-  .display,
-  .hero-sub,
-  .hero-ctas {
+  .ambient span,
+  .footer-glow {
     animation: none;
   }
   .card,

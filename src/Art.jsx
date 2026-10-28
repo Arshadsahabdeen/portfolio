@@ -1,4 +1,10 @@
+import { motion } from 'motion/react'
+
 // Small UI illustrations drawn in code, so the cards need no screenshots and follow the theme.
+// They play once when scrolled into view: events land in order, bars grow to their value.
+
+const inView = { once: true, margin: '0px 0px -15% 0px' }
+const spring = (i) => ({ type: 'spring', bounce: 0, duration: 0.6, delay: 0.15 + i * 0.09 })
 
 const events = [
   ['09:14', 'Call', 'Outgoing · 3m 12s'],
@@ -16,14 +22,26 @@ export function ForensightArt() {
       </div>
       <ol className="tl">
         {events.map(([time, kind, note], i) => (
-          <li key={time} style={{ '--i': i }}>
+          <motion.li
+            key={time}
+            initial={{ opacity: 0, x: -10 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={inView}
+            transition={spring(i)}
+          >
             <span className="tl-time">{time}</span>
-            <span className="tl-dot" />
+            <motion.span
+              className="tl-dot"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={inView}
+              transition={spring(i)}
+            />
             <span className="tl-body">
               <b>{kind}</b>
               <small>{note}</small>
             </span>
-          </li>
+          </motion.li>
         ))}
       </ol>
     </div>
@@ -46,10 +64,17 @@ export function DevSphereArt() {
       </div>
       <ul className="bars">
         {tasks.map(([name, pct, risk], i) => (
-          <li key={name} style={{ '--i': i }}>
+          <li key={name}>
             <span className="bar-name">{name}</span>
             <span className="bar-track">
-              <span className={`bar-fill risk-${risk}`} style={{ width: `${pct}%` }} />
+              <motion.span
+                className={`bar-fill risk-${risk}`}
+                style={{ width: `${pct}%`, originX: 0 }}
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={inView}
+                transition={{ ...spring(i), duration: 0.9 }}
+              />
             </span>
             <span className={`risk risk-${risk}`}>{risk}</span>
           </li>
